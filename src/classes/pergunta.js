@@ -1,10 +1,13 @@
-import { Component } from 'react'
+import React, { PureComponent } from 'react'
 
-export default class Pergunta extends Component {
-  constructor(props) {
-    super(props)
-    this.texto = props.texto
-    this.valor = props.valor
+export default class Pergunta extends PureComponent {
+
+  render() {
+    return (
+      <div>
+        <h2> {this.props.texto} </h2>
+      </div>
+    )
   }
 }
 
