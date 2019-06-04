@@ -1,26 +1,8 @@
 import React, { Component } from 'react'
+import '../App.css';
+
 
 export default class Razonete extends Component {
-
-  creditar(valor) {
-    this.credito.push(valor)
-  }
-
-  debitar(valor) {
-    this.debito.push(valor)
-  }
-
-  getTotalCredito() {
-    return this._sum(this.credito)
-  }
-
-  getTotalDebito() {
-    return this._sum(this.debito)
-  }
-
-  _sum(array) {
-    return array.reduce((accumulator, total) => accumulator + total, 0)
-  }
 
   _formatarParaReais(valor) {
     return valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
@@ -30,7 +12,7 @@ export default class Razonete extends Component {
     return (
       <div>
         <h1>{this.props.nome}</h1>
-        <table className="razonete-table">
+        <table className={"razonete-table "}>
           <thead>
             <tr>
               <th>Débito</th>
@@ -38,15 +20,15 @@ export default class Razonete extends Component {
             </tr>
           </thead>
           <tbody>
-            <td>
+            <td onClick={this.props.onClickDebito}>
               {this.props.debito.map(valor => <tr>{this._formatarParaReais(valor)}</tr>)}
             </td>
-            <td>
+            <td onClick={this.props.onClickCredito}>
               {this.props.credito.map(valor => <tr>{this._formatarParaReais(valor)}</tr>)}
             </td>
           </tbody>
         </table>
-      </div>
+      </div >
     )
   }
 
