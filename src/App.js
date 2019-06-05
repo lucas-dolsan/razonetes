@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Pergunta from './classes/pergunta'
 import RespostaForm from './classes/respostaForm';
 import { toast } from 'react-toastify';
+import Final from './classes/final';
 
 toast.configure()
 
@@ -20,12 +21,14 @@ const alternativaTypes = {
 
 const printErrou = () => toast.error("Errou... 😫");
 const printAcertou = () => toast.success("Acertou! 😉");
+const printFim = () => toast.info('😥💁‍ Acabaram as perguntas 💁‍😥')
 
 
 export default class App extends Component {
   constructor(args) {
     super(args)
     this.state = {
+      chegouAoFim: false,
       pontos: 0,
       indexPerguntaAtual: 0,
       perguntas: [
@@ -115,13 +118,11 @@ export default class App extends Component {
 
 
   avancarPergunta() {
-    if (this.state.indexPerguntaAtual !== this.state.perguntas.length - 1) {
-      this.setState(({ indexPerguntaAtual }) => {
-        return { indexPerguntaAtual: indexPerguntaAtual + 1 }
-      })
-    } else {
-      alert('acabaram as perguntas')
-    }
+    this.setState(({ indexPerguntaAtual }) => {
+      return this.state.indexPerguntaAtual !== this.state.perguntas.length - 1
+        ? { indexPerguntaAtual: indexPerguntaAtual + 1 }
+        : { chegouAoFim: true }
+    })
   }
 
   responder(perguntaAtual, alternativa) {
@@ -136,17 +137,21 @@ export default class App extends Component {
 
   render() {
     const perguntaAtual = this.state.perguntas[this.state.indexPerguntaAtual]
-    return (
-      <div className="App">
-        <header className="App-header">
-          <Pergunta texto={perguntaAtual.texto} />
-          <RespostaForm
-            alternativas={perguntaAtual.alternativas}
-            onClick={alternativa => this.responder(perguntaAtual, alternativa)}
-          />
-          <h3>Pontuação: {this.state.pontos} 🏆</h3>
-        </header>
-      </div>
-    )
+    if (this.state.chegouAoFim) {
+      return <Final totalPontos={this.state.pontos} />
+    } else {
+      return (
+        <div className="App">
+          <header className="App-header">
+            <Pergunta texto={perguntaAtual.texto} />
+            <RespostaForm
+              alternativas={perguntaAtual.alternativas}
+              onClick={alternativa => this.responder(perguntaAtual, alternativa)}
+            />
+            <h3>Pontuação: {this.state.pontos} 🏆</h3>
+          </header>
+        </div>
+      )
+    }
   }
 }
