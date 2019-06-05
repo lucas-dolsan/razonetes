@@ -10,7 +10,7 @@ export default class respostaForm extends PureComponent {
     render() {
         return (
             <div>
-                <h1>Alternativas</h1>
+                <h1>🤔 Alternativas 🤔</h1>
                 {this.props.alternativas.map(alternativa => this.renderAlternativa(alternativa))}
             </div>
         )

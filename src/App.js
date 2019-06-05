@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Pergunta from './classes/pergunta'
 import RespostaForm from './classes/respostaForm';
+import { toast } from 'react-toastify';
 
+toast.configure()
 
 const alternativaTypes = {
   A: 'resposta/A',
@@ -11,6 +14,13 @@ const alternativaTypes = {
   C: 'resposta/C',
   D: 'resposta/D',
 }
+
+
+// Call it once in your app. At the root of your app is the best place
+
+const printErrou = () => toast.error("Errou... 😫");
+const printAcertou = () => toast.success("Acertou! 😉");
+
 
 export default class App extends Component {
   constructor(args) {
@@ -117,9 +127,9 @@ export default class App extends Component {
   responder(perguntaAtual, alternativa) {
     if (perguntaAtual.alternativaCorreta === alternativa) {
       this.pontuar(perguntaAtual.pontos)
-      alert('acertou')
+      printAcertou()
     } else {
-      alert('errou')
+      printErrou()
     }
     this.avancarPergunta()
   }
@@ -134,7 +144,7 @@ export default class App extends Component {
             alternativas={perguntaAtual.alternativas}
             onClick={alternativa => this.responder(perguntaAtual, alternativa)}
           />
-          <h3>Pontuação: {this.state.pontos}</h3>
+          <h3>Pontuação: {this.state.pontos} 🏆</h3>
         </header>
       </div>
     )
